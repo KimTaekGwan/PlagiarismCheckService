@@ -2,5 +2,6 @@ fastapi
 uvicorn
 pytest
 requests
-keras
+transformers
+torch
 tensorflow
