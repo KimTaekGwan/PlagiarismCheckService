@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from api import api_get, api_post, gpu_test, py_test
+from api import api_image, api_xai, api_nlp, api_test
 
 # 출처 명시
 origins = [
@@ -12,10 +12,10 @@ origins = [
 
 
 def include_router(app):
-    app.include_router(api_get.router, prefix='/get')
-    app.include_router(api_post.router, prefix='/main')
-    app.include_router(gpu_test.router, prefix='/ai')
-    app.include_router(py_test.router, prefix='/test')
+    app.include_router(api_image.router, prefix='/image')
+    app.include_router(api_xai.router, prefix='/xai')
+    app.include_router(api_nlp.router, prefix='/nlp')
+    app.include_router(api_test.router, prefix='/test')
 
 def start_application():
     app = FastAPI()
