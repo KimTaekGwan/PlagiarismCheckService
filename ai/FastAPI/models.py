@@ -63,3 +63,6 @@ class SummaryRequest(BaseModel):
     max_length: Optional[int] = 128     # 요약문의 최대 길이 설정
     min_length: Optional[int] = 32      # 요약문의 최소 길이 설정
     num_beams: Optional[int] = 4        # 문장 생성시 다음 단어를 탐색하는 영역의 개수 
+
+class TextRequest(BaseModel):    
+    text: str

@@ -1,10 +1,9 @@
-
 from fastapi import APIRouter, FastAPI, File, UploadFile
 
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 
-from models import SummaryRequest
+from models import SummaryRequest, TextRequest
 
 
 import torch
@@ -16,9 +15,18 @@ tokenizer = PreTrainedTokenizerFast.from_pretrained('gogamza/kobart-summarizatio
 model = BartForConditionalGeneration.from_pretrained('gogamza/kobart-summarization')
 
 router = APIRouter()
-    
 
-@router.post("/summarize", tags=["gpu"])
+
+@router.post("/imbedding", tags=["NLP"])
+async def imbedding(request: TextRequest):
+    text = request.text
+    raw_input_ids = tokenizer.encode(text)
+
+    resDict = {'summary': raw_input_ids}
+    resJson = jsonable_encoder(resDict)
+    return JSONResponse(content=resJson)
+
+@router.post("/summarize", tags=["NLP"])
 async def summarize(request: SummaryRequest):
     text = request.text
     raw_input_ids = tokenizer.encode(text)
@@ -43,7 +51,7 @@ async def summarize(request: SummaryRequest):
     return JSONResponse(content=resJson)
 
 
-@router.get("/check", tags=["gpu"])
+@router.get("/check", tags=["NLP"])
 async def gpu_check():
     resDict = {'result': tf.config.list_physical_devices()}
     # resDict = {'result':'test'}
